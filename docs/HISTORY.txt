@@ -12,6 +12,7 @@ https://oodt.jpl.nasa.gov/jira/browse/CA.
 This release includes the following:
 
 * A plone.app.testing layer and associated fixtures.
+* Support for edrnsite.collaborations
 
 
 1.1.1 - Upgrade Cleanup

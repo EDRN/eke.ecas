@@ -30,8 +30,18 @@ class TestSetup(BaseTestCase):
         for i in ('Dataset Folder', 'Dataset'):
             self.failUnless(i in types)
 
+class CollaborativeGroupNamingTest(BaseTestCase):
+    '''Unit tests for the identification of collaborative groups in ECAS'''
+    def testGroupNameMapping(self):
+        from eke.ecas.utils import COLLABORATIVE_GROUP_ECAS_IDS_TO_NAMES as cgitn
+        self.assertEquals(u'Breast and Gynecologic Cancers Research Group',         cgitn[u'Breast/GYN'])
+        self.assertEquals(u'G.I. and Other Associated Cancers Research Group',      cgitn[u'GI and Other Associated'])
+        self.assertEquals(u'Lung and Upper Aerodigestive Cancers Research Group',   cgitn[u'Lung and Upper Aerodigestive'])
+        self.assertEquals(u'Prostate and Urologic Cancers Research Group',          cgitn[u'Prostate and Urologic'])
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestSetup))
+    suite.addTest(unittest.makeSuite(CollaborativeGroupNamingTest))
     return suite
     
