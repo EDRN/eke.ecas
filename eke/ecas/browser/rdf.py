@@ -16,12 +16,16 @@ from rdflib import URIRef, ConjunctiveGraph, URLInputSource
 from zope.component import queryUtility, getMultiAdapter
 from zope.publisher.browser import TestRequest
 from Products.CMFCore.WorkflowCore import WorkflowException
+from eke.ecas.utils import COLLABORATIVE_GROUP_ECAS_IDS_TO_NAMES
 
 _accessPredicateURI     = URIRef('http://edrn.nci.nih.gov/rdf/schema.rdf#AccessGrantedTo')
 _protocolPredicateURI   = URIRef('http://edrn.nci.nih.gov/rdf/schema.rdf#protocol')
 _visibilityPredicateURI = URIRef('http://edrn.nci.nih.gov/rdf/schema.rdf#QAState')
+_collaborativeGroupURI  = URIRef('urn:edrn:CollaborativeGroup')
 # FIXME: this should be dublin core title:
 _nonstandardECASTitlePredicateURI = URIRef('urn:edrn:DataSetName')
+# Interface identifier for EDRN Collaborative Group, from edrnsite.collaborations
+_collabGroup = 'edrnsite.collaborations.interfaces.collaborativegroupindex.ICollaborativeGroupIndex'
 
 class DatasetFolderIngestor(KnowledgeFolderIngestor):
     '''Dataset Folder ingestion.'''
@@ -87,6 +91,8 @@ class DatasetFolderIngestor(KnowledgeFolderIngestor):
             dataset.setTitle(title)
             updateObject(dataset, uri, predicates, context)
             createdObjects.append(CreatedObject(dataset))
+            if _collaborativeGroupURI in predicates:
+                self.updateCollaborativeGroup(dataset, unicode(predicates[_collaborativeGroupURI][0]), catalog)
             if _protocolPredicateURI in predicates:
                 for proto in [i.getObject() for i in catalog(identifier=[unicode(i) for i in predicates[_protocolPredicateURI]])]:
                     uid = dataset.UID()
@@ -106,4 +112,16 @@ class DatasetFolderIngestor(KnowledgeFolderIngestor):
             dataset.reindexObject()
         self.objects = createdObjects
         return self.render and self.template() or len(self.objects)
+    def updateCollaborativeGroup(self, dataset, groupID, catalog):
+        try:
+            groupName = COLLABORATIVE_GROUP_ECAS_IDS_TO_NAMES[groupID]
+        except KeyError:
+            return
+        results = [i.getObject() for i in catalog(object_provides=_collabGroup, Title=groupName)]
+        for collabGroup in results:
+            currentDatasets = collabGroup.getDatasets()
+            if dataset not in currentDatasets:
+                currentDatasets.append(dataset)
+                collabGroup.setDatasets(currentDatasets)
+                
         

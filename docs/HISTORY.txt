@@ -13,6 +13,9 @@ This release includes the following:
 
 * A plone.app.testing layer and associated fixtures.
 * Support for edrnsite.collaborations
+* Re-attaches datasets that indicate their collaborative group back to the
+  "Collaborative Group" (from edrnsite.collaborations) objects to which they
+  "belong".
 
 
 1.1.1 - Upgrade Cleanup
