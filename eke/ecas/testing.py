@@ -18,7 +18,7 @@ class EKEECAS(PloneSandboxLayer):
         eke.ecas.tests.base.registerLocalTestData()
     def setUpPloneSite(self, portal):
         self.applyProfile(portal, 'eke.ecas:default')
-    def teatDownZope(self, app):
+    def tearDownZope(self, app):
         z2.uninstallProduct(app, 'eke.ecas')
 
 EKE_ECAS_FIXTURE = EKEECAS()
