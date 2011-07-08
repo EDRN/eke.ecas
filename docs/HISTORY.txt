@@ -16,6 +16,8 @@ This release includes the following:
 * Re-attaches datasets that indicate their collaborative group back to the
   "Collaborative Group" (from edrnsite.collaborations) objects to which they
   "belong".
+* Removed the hard-coded Description text on Dataset Folders and let the
+  folder's own "description" field appear.
 
 
 1.1.1 - Upgrade Cleanup
