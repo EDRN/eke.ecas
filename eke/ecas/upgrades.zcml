@@ -15,4 +15,13 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         handler='eke.ecas.upgrades.nullUpgradeStep'
         sortkey='1'
     />
+    <genericsetup:upgradeStep
+        source='4'
+        destination='5'
+        title='Null Upgrade Step (4→5)'
+        description='The EKE ECAS requires no custom upgrade steps to go from profile 4 to profile 5.'
+        profile='eke.ecas:default'
+        handler='eke.ecas.upgrades.nullUpgradeStep'
+        sortkey='1'
+    />
 </configure>

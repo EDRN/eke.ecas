@@ -94,9 +94,11 @@
                                     <td tal:content='item/bodySystemName'>
                                         Anus
                                     </td>
-                                    <td tal:content='item/protocolName'>
-                                        Deep Bore: A Thorough Study of the Anus;
-                                        or, How I Learned to Stop Clenching and Love the Probe
+                                    <td>
+                                        <a href='#' tal:attributes='href item/protocolURL' tal:content='item/protocolName'>
+                                            Deep Bore: A Thorough Study of the Anus;
+                                            or, How I Learned to Stop Clenching and Love the Probe
+                                        </a>
                                     </td>
                                     <td tal:content='item/collaborativeGroup'>
                                         Rectal Exploring Aliens

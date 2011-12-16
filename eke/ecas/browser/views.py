@@ -29,6 +29,8 @@ class DatasetFolderView(KnowledgeFolderView):
             (i.UID, dict(
                 title=i.Title, url=i.identifier, bodySystemName=i.bodySystemName, protocolName=i.protocolName,
                 collaborativeGroup=i.collaborativeGroup, reviewState='hide',
+                protocolURL=self._getProtocolURL(i.getProtocolUID, uidCatalog),
+                collaborativeGroupURL=self._getCollaborativeGroupURL(i.collaborativeGroupUID, uidCatalog),
                 # I'm not proud of the below expression:
                 pis=[dict(name=j[0].Title, url=j[0].getURL(relative=False)) for j in [uidCatalog(UID=k) for k in i.piUIDs]]
             )) for i in catalog.search(
@@ -54,6 +56,16 @@ class DatasetFolderView(KnowledgeFolderView):
         results = allDatasets.values()
         results.sort(lambda a, b: cmp(a['title'], b['title']))
         return results
+    def _getProtocolURL(self, protocolUID, uidCatalog):
+        if protocolUID is None: return None
+        results = uidCatalog(UID=protocolUID)
+        if len(results) == 0: return None
+        return results[0].getURL(relative=False)
+    def _getCollaborativeGroupURL(self, collaborativeGroupUID, uidCatalog):
+        if collaborativeGroupUID is None: return None
+        results = uidCatalog(UID=collaborativeGroupUID)
+        if len(results) == 0: return None
+        return results[0].getURL(relative=False)
     @memoize
     def subfolders(self):
         context = aq_inner(self.context)

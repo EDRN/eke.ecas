@@ -135,4 +135,8 @@ class IDataset(IKnowledgeObject):
             required=False
         )
     )
-    
+    collaborativeGroupUID = schema.TextLine(
+        title=_(u'Collaborative Group UID'),
+        description=_(u'Unique ID of the collaborative group that produced this dataset.'),
+        required=False,
+    )

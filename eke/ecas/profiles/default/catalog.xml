@@ -12,10 +12,18 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         <indexed_attr value='protocolName' />
     </index>
     <column value='protocolName' />
+    <index name='getProtocolUID' meta_type='FieldIndex'>
+        <indexed_attr value='getProtocolUID' />
+    </index>
+    <column value='getProtocolUID' />
     <index name='collaborativeGroup' meta_type='FieldIndex'>
         <indexed_attr value='collaborativeGroup' />
     </index>
     <column value='collaborativeGroup' />
+    <index name='collaborativeGroupUID' meta_type='FieldIndex'>
+        <indexed_attr value='collaborativeGroupUID' />
+    </index>
+    <column value='collaborativeGroupUID' />
     <index name='piUIDs' meta_type='KeywordIndex'>
         <indexed_attr value='piUIDs' />
     </index>

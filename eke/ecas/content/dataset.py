@@ -175,6 +175,16 @@ DatasetSchema = knowledgeobject.KnowledgeObjectSchema.copy() + atapi.Schema((
         predicateURI=ecasURIPrefix + 'CollaborativeGroup',
         unmarkedUpRDFLiteral=True,
     ),
+    atapi.StringField(
+        'collaborativeGroupUID',
+        required=False,
+        searchable=False,
+        storage=atapi.AnnotationStorage(),
+        modes=('view',),
+        widget=atapi.StringWidget(
+            visible={'edit': 'invisible', 'view': 'invisible'},
+        ),
+    ),
     atapi.ReferenceField(
         'bodySystem',
         required=False,
@@ -188,7 +198,7 @@ DatasetSchema = knowledgeobject.KnowledgeObjectSchema.copy() + atapi.Schema((
             label=_(u'Body System'),
             description=_(u'About what body system (such as an organ) this science data is'),
         ),
-        predicateURI=edrnURIPrefix + 'bodySystem',
+        predicateURI=edrnURIPrefix + 'organ',
     ),
     atapi.ComputedField(
         'bodySystemName',
@@ -207,6 +217,16 @@ DatasetSchema = knowledgeobject.KnowledgeObjectSchema.copy() + atapi.Schema((
         searchable=False,
         storage=atapi.AnnotationStorage(),
         expression='context._computeProtocolName()',
+        modes=('view',),
+        widget=atapi.ComputedWidget(
+            visible={'edit': 'invisible', 'view': 'invisible'},
+        ),
+    ),
+    atapi.ComputedField(
+        'protocolUID',
+        required=False,
+        searchable=False,
+        expression='context._computeMyProtocolUID()',
         modes=('view',),
         widget=atapi.ComputedWidget(
             visible={'edit': 'invisible', 'view': 'invisible'},
@@ -246,31 +266,35 @@ finalizeATCTSchema(DatasetSchema, folderish=False, moveDiscussion=False)
 class Dataset(knowledgeobject.KnowledgeObject):
     '''Dataset.'''
     implements(IDataset)
-    schema             = DatasetSchema
-    portal_type        = 'Dataset'
-    title              = atapi.ATFieldProperty('title')
-    custodian          = atapi.ATFieldProperty('custodian')
-    protocol           = atapi.ATReferenceFieldProperty('protocol')
-    sites              = atapi.ATReferenceFieldProperty('sites')
-    authors            = atapi.ATFieldProperty('authors')
-    grantSupport       = atapi.ATFieldProperty('grantSupport')
-    researchSupport    = atapi.ATFieldProperty('researchSupport')
-    dataDisclaimer     = atapi.ATFieldProperty('dataDisclaimer')
-    studyBackground    = atapi.ATFieldProperty('studyBackground')
-    studyMethods       = atapi.ATFieldProperty('studyMethods')
-    studyResults       = atapi.ATFieldProperty('studyResults')
-    studyConclusion    = atapi.ATFieldProperty('studyConclusion')
-    dataUpdateDate     = atapi.ATDateTimeFieldProperty('dataUpdateDate')
-    collaborativeGroup = atapi.ATFieldProperty('collaborativeGroup')
-    bodySystem         = atapi.ATReferenceFieldProperty('bodySystem')
-    bodySystemName     = atapi.ATFieldProperty('bodySystemName')
-    protocolName       = atapi.ATFieldProperty('protocolName')
-    piUIDs             = atapi.ATFieldProperty('piUIDs')
-    piNames            = atapi.ATFieldProperty('piNames')
+    schema                = DatasetSchema
+    portal_type           = 'Dataset'
+    title                 = atapi.ATFieldProperty('title')
+    custodian             = atapi.ATFieldProperty('custodian')
+    protocol              = atapi.ATReferenceFieldProperty('protocol')
+    sites                 = atapi.ATReferenceFieldProperty('sites')
+    authors               = atapi.ATFieldProperty('authors')
+    grantSupport          = atapi.ATFieldProperty('grantSupport')
+    researchSupport       = atapi.ATFieldProperty('researchSupport')
+    dataDisclaimer        = atapi.ATFieldProperty('dataDisclaimer')
+    studyBackground       = atapi.ATFieldProperty('studyBackground')
+    studyMethods          = atapi.ATFieldProperty('studyMethods')
+    studyResults          = atapi.ATFieldProperty('studyResults')
+    studyConclusion       = atapi.ATFieldProperty('studyConclusion')
+    dataUpdateDate        = atapi.ATDateTimeFieldProperty('dataUpdateDate')
+    collaborativeGroup    = atapi.ATFieldProperty('collaborativeGroup')
+    collaborativeGroupUID = atapi.ATFieldProperty('collaborativeGroupUID')
+    bodySystem            = atapi.ATReferenceFieldProperty('bodySystem')
+    bodySystemName        = atapi.ATFieldProperty('bodySystemName')
+    protocolName          = atapi.ATFieldProperty('protocolName')
+    piUIDs                = atapi.ATFieldProperty('piUIDs')
+    piNames               = atapi.ATFieldProperty('piNames')
     def _computeBodySystemName(self):
         return self.bodySystem is not None and self.bodySystem.title or None
     def _computeProtocolName(self):
         return self.protocol is not None and self.protocol.title or None
+    def _computeMyProtocolUID(self):
+        uid = self.protocol.UID() if self.protocol is not None else None
+        return uid
     def _computePIUIDs(self):
         if self.protocol and self.protocol.leadInvestigatorSite and self.protocol.leadInvestigatorSite.principalInvestigator:
             return [self.protocol.leadInvestigatorSite.principalInvestigator.UID()]
