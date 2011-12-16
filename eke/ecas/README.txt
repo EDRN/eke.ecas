@@ -292,7 +292,16 @@ it there?  Let's find out::
     >>> browser.contents
     '...The EDRN is involved in researching hundreds of biomarkers.  The following is a partial list...'
     
-No problem.
+No problem.  Issue CA-513 wants protocols to be hyperlinks to their
+protocols::
+
+    >>> browser.contents
+    '...<a href="http://nohost/questionable-studies/ps-public-safety">Public Safety</a>...'
+
+Lookin' good.  The issue also wanted collaborative groups to be hyperlinks to
+their group descriptions.  I think it'd be better to link them to their
+Collaborative Group objects.  But we can't test for that here (dependency
+loop), so check the ``edrnsite.collaborations`` package to see that in action.
 
 
 RDF Ingestion
