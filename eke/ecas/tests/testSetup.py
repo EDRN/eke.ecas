@@ -16,13 +16,13 @@ class TestSetup(BaseTestCase):
         '''Check if indexes are properly installed'''
         catalog = getToolByName(self.portal, 'portal_catalog')
         indexes = catalog.indexes()
-        for i in ('bodySystemName', 'protocolName', 'collaborativeGroup', 'piUID'):
+        for i in ('bodySystemName', 'protocolName', 'collaborativeGroup', 'piUID', 'getProtocolUID', 'collaborativeGroupUID'):
             self.failUnless(i in indexes)
     def testCatalogMetadata(self):
         '''Check if indexed metadata schema are properly installed'''
         catalog = getToolByName(self.portal, 'portal_catalog')
         metadata = catalog.schema()
-        for i in ('bodySystemName', 'protocolName', 'collaborativeGroup', 'piUID'):
+        for i in ('bodySystemName', 'protocolName', 'collaborativeGroup', 'piUID', 'getProtocolUID', 'collaborativeGroupUID'):
             self.failUnless(i in metadata)
     def testTypes(self):
         '''Make sure our types are available'''
