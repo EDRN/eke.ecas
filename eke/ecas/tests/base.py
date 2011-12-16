@@ -54,7 +54,7 @@ _singleDatasetRDF = '''<?xml version='1.0' encoding='UTF-8'?>
         <ecas:StudyMethods>None of your business.</ecas:StudyMethods>
         <ecas:StudyConclusion>Classified.</ecas:StudyConclusion>
         <ecas:StudyResults>Nice try, bub.</ecas:StudyResults>
-        <edrn:bodySystem rdf:resource='urn:edrn:organs:anus'/>
+        <edrn:organ rdf:resource='urn:edrn:organs:anus'/>
         <ecas:StudyBackground>You must have a death wish.</ecas:StudyBackground>
         <ecas:CollaborativeGroup>NSA</ecas:CollaborativeGroup>
     </ecas:TopSecretData>
@@ -79,7 +79,7 @@ _dobuleDatasetRDF = '''<?xml version='1.0' encoding='UTF-8'?>
         <ecas:StudyMethods>None of your business.</ecas:StudyMethods>
         <ecas:StudyConclusion>Classified.</ecas:StudyConclusion>
         <ecas:StudyResults>Nice try, bub.</ecas:StudyResults>
-        <edrn:bodySystem rdf:resource='urn:edrn:organs:anus'/>
+        <edrn:organ rdf:resource='urn:edrn:organs:anus'/>
         <ecas:StudyBackground>You must have a death wish.</ecas:StudyBackground>
         <ecas:CollaborativeGroup>NSA</ecas:CollaborativeGroup>
     </ecas:TopSecretData>
