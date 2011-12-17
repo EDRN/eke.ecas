@@ -100,8 +100,11 @@
                                             or, How I Learned to Stop Clenching and Love the Probe
                                         </a>
                                     </td>
-                                    <td tal:content='item/collaborativeGroup'>
-                                        Rectal Exploring Aliens
+                                    <td>
+                                        <a href='#' tal:attributes='href item/collaborativeGroupURL' 
+                                            tal:content='item/collaborativeGroup'>
+                                            Rectal Exploring Aliens
+                                        </a>
                                     </td>
                                 </tal:define>
                             </tr>
