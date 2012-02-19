@@ -6,34 +6,9 @@
 Testing base code.
 '''
 
-from Products.Five import zcml
-from Products.Five import fiveconfigure
-from Testing import ZopeTestCase as ztc
-from Products.PloneTestCase import PloneTestCase as ptc
-from Products.PloneTestCase.layer import onsetup
 import eke.knowledge.tests.base as ekeKnowledgeBase
 import eke.study.tests.base as ekeStudyBase
 import eke.site.tests.base as ekeSiteBase
-
-# Traditional Products we have to load manually for test cases:
-# (none at this time)
-
-@onsetup
-def setupEKEECAS():
-    '''Set up additional products required.'''
-    fiveconfigure.debug_mode = True
-    import eke.ecas
-    zcml.load_config('configure.zcml', eke.ecas)
-    fiveconfigure.debug_mode = False
-    ztc.installPackage('eke.knowledge')
-    ztc.installPackage('eke.publications')
-    ztc.installPackage('eke.site')
-    ztc.installPackage('eke.study')
-    ztc.installPackage('eke.ecas')
-
-
-setupEKEECAS()
-ptc.setupPloneSite(products=['eke.ecas'])
 
 _singleDatasetRDF = '''<?xml version='1.0' encoding='UTF-8'?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cas="urn:oodt:" xmlns:ecas="urn:edrn:"
@@ -101,17 +76,4 @@ def registerLocalTestData():
     ekeSiteBase.registerLocalTestData()
     ekeKnowledgeBase.registerTestData('/datasets/a', _singleDatasetRDF)
     ekeKnowledgeBase.registerTestData('/datasets/b', _dobuleDatasetRDF)
-
-class BaseTestCase(ekeKnowledgeBase.BaseTestCase):
-    '''Base for tests in this package.'''
-    def setUp(self):
-        super(BaseTestCase, self).setUp()
-        registerLocalTestData()
-    
-class FunctionalBaseTestCase(ekeKnowledgeBase.FunctionalBaseTestCase):
-    '''Base class for functional (doc-)tests.'''
-    def setUp(self):
-        super(FunctionalBaseTestCase, self).setUp()
-        registerLocalTestData()
-    
 

@@ -7,6 +7,7 @@ from eke.site.testing import EKE_SITE_FIXTURE
 from eke.study.testing import EKE_STUDY_FIXTURE
 from plone.app.testing import PloneSandboxLayer, IntegrationTesting, FunctionalTesting
 from plone.testing import z2
+from Products.CMFCore.utils import getToolByName
 
 class EKEECAS(PloneSandboxLayer):
     defaultBases = (EKE_STUDY_FIXTURE, EKE_SITE_FIXTURE, EKE_KNOWLEDGE_FIXTURE)
@@ -18,6 +19,8 @@ class EKEECAS(PloneSandboxLayer):
         eke.ecas.tests.base.registerLocalTestData()
     def setUpPloneSite(self, portal):
         self.applyProfile(portal, 'eke.ecas:default')
+        wfTool = getToolByName(portal, 'portal_workflow')
+        wfTool.setDefaultChain('plone_workflow')
     def tearDownZope(self, app):
         z2.uninstallProduct(app, 'eke.ecas')
 

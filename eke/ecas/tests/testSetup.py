@@ -6,12 +6,16 @@
 EKE ECAS: test the setup of this package.
 '''
 
-import unittest
-from base import BaseTestCase
+import unittest2 as unittest
+from eke.ecas.testing import EKE_ECAS_INTEGRATION_TESTING
 from Products.CMFCore.utils import getToolByName
 
-class TestSetup(BaseTestCase):
+class SetupTest(unittest.TestCase):
     '''Unit tests the setup of this package.'''
+    layer = EKE_ECAS_INTEGRATION_TESTING    
+    def setUp(self):
+        super(SetupTest, self).setUp()
+        self.portal = self.layer['portal']
     def testCatalogIndexes(self):
         '''Check if indexes are properly installed'''
         catalog = getToolByName(self.portal, 'portal_catalog')
@@ -30,8 +34,12 @@ class TestSetup(BaseTestCase):
         for i in ('Dataset Folder', 'Dataset'):
             self.failUnless(i in types)
 
-class CollaborativeGroupNamingTest(BaseTestCase):
+class CollaborativeGroupNamingTest(unittest.TestCase):
     '''Unit tests for the identification of collaborative groups in ECAS'''
+    layer = EKE_ECAS_INTEGRATION_TESTING    
+    def setUp(self):
+        super(CollaborativeGroupNamingTest, self).setUp()
+        self.portal = self.layer['portal']
     def testGroupNameMapping(self):
         from eke.ecas.utils import COLLABORATIVE_GROUP_ECAS_IDS_TO_NAMES as cgitn
         self.assertEquals(u'Breast and Gynecologic Cancers Research Group',         cgitn[u'Breast/GYN'])
@@ -40,8 +48,8 @@ class CollaborativeGroupNamingTest(BaseTestCase):
         self.assertEquals(u'Prostate and Urologic Cancers Research Group',          cgitn[u'Prostate and Urologic'])
 
 def test_suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestSetup))
-    suite.addTest(unittest.makeSuite(CollaborativeGroupNamingTest))
-    return suite
+    return unittest.defaultTestLoader.loadTestsFromName(__name__)
+
+if __name__ == '__main__':
+    unittest.main(defaultTest='test_suite')
     

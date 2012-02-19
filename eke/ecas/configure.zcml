@@ -9,6 +9,9 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     xmlns:genericsetup='http://namespaces.zope.org/genericsetup'
     i18n_domain='eke.ecas'>
 
+    <include package='z3c.autoinclude' file='meta.zcml' />
+    <includeDependenciesOverrides package='.' />
+    <includeDependencies package='.' />
     <five:registerPackage package="." initialize=".initialize" />
     <include package='.browser'/>
     <include package='.content'/>
@@ -19,8 +22,4 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         description='ECAS Science Data for the EDRN Knowledge Environment.'
         provides='Products.GenericSetup.interfaces.EXTENSION'
     />
-    <include package='eke.publications' />
-    <include package='eke.knowledge' />
-    <include package='eke.site' />
-    <include package='eke.study' />
 </configure>

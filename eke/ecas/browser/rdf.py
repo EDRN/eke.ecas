@@ -52,21 +52,11 @@ class DatasetFolderIngestor(KnowledgeFolderIngestor):
         if _visibilityPredicateURI in predicates:
             visibilty = unicode(predicates[_visibilityPredicateURI][0])
             if visibilty == u'Accepted':
-                try:
-                    if wfTool.getInfoFor(dataset, 'review_state') != 'published':
-                        self._doPublish(dataset, wfTool)
-                except WorkflowException:
-                    # This fails when called from plone.app.testing's PloneSandboxLayer's setupPloneSite.
-                    # I think that's a bug.
-                    pass
+                if wfTool.getInfoFor(dataset, 'review_state') != 'published':
+                    self._doPublish(dataset, wfTool)
         else:
-            try:
-                if wfTool.getInfoFor(dataset, 'review_state') != 'private':
-                    self._doPublish(dataset, wfTool, action='retract')
-            except WorkflowException:
-                # This fails when called from plone.app.testing's PloneSandboxLayer's setupPloneSite.
-                # I think that's a bug.
-                pass
+            if wfTool.getInfoFor(dataset, 'review_state') != 'private':
+                self._doPublish(dataset, wfTool, action='retract')
     def __call__(self):
         '''We have to override this because ECAS datasets come in with unpredictable RDF types.
         '''

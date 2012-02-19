@@ -20,36 +20,23 @@ using a series of functional tests.
 Tests
 =====
 
-In order to execute these tests, we'll first need a test browser::
+First we have to set up some things and login to the site::
 
-    >>> from Products.Five.testbrowser import Browser
-    >>> browser = Browser()
-    >>> portalURL = self.portal.absolute_url()
-        
-We also change some settings so that any errors will be reported immediately::
-
+    >>> app = layer['app']
+    >>> from plone.testing.z2 import Browser
+    >>> from plone.app.testing import SITE_OWNER_NAME, SITE_OWNER_PASSWORD
+    >>> browser = Browser(app)
     >>> browser.handleErrors = False
-    >>> self.portal.error_log._ignored_exceptions = ()
-        
-We'll also turn off the portlets.  Why?  Well for these tests we'll be looking
-for specific strings output in the HTML, and the portlets will often have
-duplicate links that could interfere with that::
+    >>> browser.addHeader('Authorization', 'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
+    >>> portal = layer['portal']    
+    >>> portalURL = portal.absolute_url()
 
-    >>> from zope.component import getUtility, getMultiAdapter
-    >>> from plone.portlets.interfaces import IPortletManager, IPortletAssignmentMapping
-    >>> for colName in ('left', 'right'):
-    ...     col = getUtility(IPortletManager, name=u'plone.%scolumn' % colName)
-    ...     assignable = getMultiAdapter((self.portal, col), IPortletAssignmentMapping)
-    ...     for name in assignable.keys():
-    ...             del assignable[name]
+We'll also have a second browser that's unprivileged for some later
+demonstrations::
 
-And finally we'll log in as an administrator::
+    >>> unprivilegedBrowser = Browser(app)
 
-    >>> from Products.PloneTestCase.setup import portal_owner, default_password
-    >>> browser.open(portalURL + '/login_form?came_from=' + portalURL)
-    >>> browser.getControl(name='__ac_name').value = portal_owner
-    >>> browser.getControl(name='__ac_password').value = default_password
-    >>> browser.getControl(name='submit').click()
+Now we can check out the new types introduced in this package.
 
 
 Addable Content
@@ -471,11 +458,13 @@ its visibility::
     >>> browser.contents
     '...State:...Published...'
 
-The "Get not as bent" dataset is still under review, so it should be private::
+The "Get not as bent" dataset is still under review, so it should be private,
+however in the plone.app.testing framework we don't have access to the snazzy
+workflows, so chances are it'll be in the public draft state::
 
     >>> browser.open(portalURL + '/waxy-buildup/get-not-as-bent')
     >>> browser.contents
-    '...State:...Private...'
+    '...State:...Public draft...'
     
 However, this dataset does allow those members of the "silly-group" to view
 it::
@@ -485,11 +474,11 @@ it::
     '...Name...ldap://edrn/groups/silly-group...'
 
 Finally, there's a dataset that doesn't even have a QA state, so by default,
-it should be private::
+it should be private (again, non-snazzy workflows notwithstanding)::
 
     >>> browser.open(portalURL + '/waxy-buildup/chad-vader')
     >>> browser.contents
-    '...State:...Private...'
+    '...State:...Public draft...'
 
 All of this came about due to http://oodt.jpl.nasa.gov/jira/browse/CA-475.
 
@@ -508,60 +497,12 @@ Similarly, the note about having to be logged in should be gone::
 
 Great.
 
-However, in http://oodt.jpl.nasa.gov/jira/browse/CA-492, we noticed that data
-that's marked private still doesn't actually appear in the folder view for
-users who should have permission to view it.  Let's check that::
-
-    >>> browser.open(portalURL + '/waxy-buildup')
-    >>> browser.contents
-    '...Chad Vader...Get Bent...Get not as bent...'
-
-That works.  Now, logging out should yield only the published one::
-
-    >>> browser.open(portalURL + '/logout')
-    >>> browser.open(portalURL + '/waxy-buildup')
-    >>> browser.contents
-    '...Get Bent...'
-
-
-New Policy on Private Datasets
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Issue CA-502 says that we really do want to show all datasets in a
-dataset folder, even those that would normally be private to the currently
-logged in (or anonymous) users.  Those private ones should be marked so that
-the user knows that a login might be required.
-
-Let's log out and see if our datasets from above are still visible::
-
-    >>> browser.open(portalURL + '/logout')
-    >>> browser.open(portalURL + '/waxy-buildup')
-    >>> browser.contents
-    '...Chad Vader...Get Bent...Get not as bent...'
-
-Ah, our two private datasets do indeed show up.  And if we try visiting one of
-them::
-
-    >>> browser.open(portalURL + '/waxy-buildup/chad-vader')
-    Traceback (most recent call last):
-    ...
-    Unauthorized:...
-
-Perfect.
-
 
 RDF Data Sources
 ~~~~~~~~~~~~~~~~
 
 The URL to an RDF data source is nominally displayed on an ECAS folder, but
-only if you're an administrator.  Let's log in as an administrator::
-
-    >>> browser.open(portalURL + '/login_form?came_from=' + portalURL)
-    >>> browser.getControl(name='__ac_name').value = portal_owner
-    >>> browser.getControl(name='__ac_password').value = default_password
-    >>> browser.getControl(name='submit').click()
-
-And look, there's the RDF URL::
+only if you're an administrator::
 
     >>> browser.open(portalURL + '/waxy-buildup')
     >>> browser.contents
@@ -569,9 +510,8 @@ And look, there's the RDF URL::
 
 However, mere mortals shouldn't see that::
 
-    >>> browser.open(portalURL + '/logout')
-    >>> browser.open(portalURL + '/waxy-buildup')
-    >>> 'RDF Data Source' not in browser.contents
+    >>> unprivilegedBrowser.open(portalURL + '/waxy-buildup')
+    >>> 'RDF Data Source' not in unprivilegedBrowser.contents
     True
 
 That's it!
