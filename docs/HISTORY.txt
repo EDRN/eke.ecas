@@ -12,6 +12,7 @@ https://oodt.jpl.nasa.gov/jira/browse/CA.
 This release addresses the following:
 
 * CA-513 - Science Data List on the Portal
+* Depending on just Plone the framework instead of Plone the application.
 
 
 1.1.2 — Let's Collaborate!
