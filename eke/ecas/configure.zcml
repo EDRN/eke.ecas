@@ -10,7 +10,6 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     i18n_domain='eke.ecas'>
 
     <include package='z3c.autoinclude' file='meta.zcml' />
-    <includeDependenciesOverrides package='.' />
     <includeDependencies package='.' />
     <five:registerPackage package="." initialize=".initialize" />
     <include package='.browser'/>
