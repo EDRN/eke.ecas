@@ -10,7 +10,7 @@ import os.path
 # ------------
 
 _name        = 'eke.ecas'
-_version     = '1.1.4'
+_version     = '1.1.5'
 _description = 'EDRN Catalog and Archive Service for the EDRN Knowledge Environment'
 _url         = 'http://cancer.jpl.nasa.gov/products/eke-ecas'
 _downloadURL = 'http://oodt.jpl.nasa.gov/dist/eke'
