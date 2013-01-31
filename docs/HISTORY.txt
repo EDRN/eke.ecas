@@ -5,6 +5,12 @@ What follows is a history of changes from release to release.  For more
 details about specific issue IDs listed below, consult the issue tracker at
 https://oodt.jpl.nasa.gov/jira/browse/CA.
 
+1.1.5 — TBD
+-----------
+
+Made compatible with Plone 4.2.4 and eea.facetednavigation 5.3
+
+
 1.1.4 — Upgrades
 ----------------
 
