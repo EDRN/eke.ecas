@@ -5,8 +5,8 @@ What follows is a history of changes from release to release.  For more
 details about specific issue IDs listed below, consult the issue tracker at
 https://oodt.jpl.nasa.gov/jira/browse/CA.
 
-1.1.5 — TBD
------------
+1.1.5 — More Upgrades
+---------------------
 
 Made compatible with Plone 4.2.4 and eea.facetednavigation 5.3
 
@@ -115,8 +115,7 @@ This release addresses the following issues:
 
 * http://oodt.jpl.nasa.gov/jira/browse/CA-463 - Change "Body Systems" under
   Science Data Tab Contents to Organ
-* http:
-//oodt.jpl.nasa.gov/jira/browse/CA-492 - Portal dataset view only seems
+* http://oodt.jpl.nasa.gov/jira/browse/CA-492 - Portal dataset view only seems
   to respect QAState (and not AccessGrantedTo).
 
 
