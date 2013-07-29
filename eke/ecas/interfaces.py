@@ -6,7 +6,7 @@
 '''
 
 from zope import schema
-from zope.app.container.constraints import contains
+from zope.container.constraints import contains
 from eke.ecas import ProjectMessageFactory as _
 from eke.knowledge.interfaces import IKnowledgeFolder, IKnowledgeObject, IBodySystem
 from eke.site.interfaces import ISite
