@@ -8,7 +8,8 @@ https://oodt.jpl.nasa.gov/jira/browse/CA.
 1.1.6 — TBD
 -----------
 
-Made compatible with Plone 4.3.
+• Made compatible with Plone 4.3.
+• Use z3c.autoinclude.
 
 
 1.1.5 — More Upgrades
