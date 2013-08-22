@@ -20,7 +20,7 @@ _license     = 'Proprietary'
 _namespaces  = ['eke']
 _zipSafe     = False
 _keywords    = 'web zope plone edrn cancer biomarkers eke ecas datasets data management'
-_entryPoints     = {
+_entryPoints = {
     'z3c.autoinclude.plugin': ['target=plone'],
 }
 _extras = {
