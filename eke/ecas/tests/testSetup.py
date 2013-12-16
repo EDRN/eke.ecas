@@ -30,9 +30,11 @@ class SetupTest(unittest.TestCase):
             self.failUnless(i in metadata)
     def testTypes(self):
         '''Make sure our types are available'''
-        types = getToolByName(self.portal, 'portal_types').objectIds()
+        types = getToolByName(self.portal, 'portal_types')
         for i in ('Dataset Folder', 'Dataset'):
-            self.failUnless(i in types)
+            self.failUnless(i in types.objectIds(), 'Type "%s" missing' % i)
+            self.failIf(types[i].allow_discussion, 'Type "%s" allows discussion but should not' % i)
+
 
 class CollaborativeGroupNamingTest(unittest.TestCase):
     '''Unit tests for the identification of collaborative groups in ECAS'''
