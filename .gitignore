@@ -1,0 +1,9 @@
+._*
+.DS_Store
+dist
+build
+parts
+var
+*.log
+.*.cfg
+*.sublime-workspace
