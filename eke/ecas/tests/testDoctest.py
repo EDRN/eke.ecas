@@ -1,5 +1,5 @@
 # encoding: utf-8
-# Copyright 2009–2012 California Institute of Technology. ALL RIGHTS
+# Copyright 2009–2014 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
 '''
@@ -15,7 +15,7 @@ optionFlags = (doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE | doctest.REPORT_
 
 def test_suite():
     return unittest.TestSuite([
-        layered(doctest.DocFileSuite('README.txt', package='eke.ecas', optionflags=optionFlags), LAYER),
+        layered(doctest.DocFileSuite('README.rst', package='eke.ecas', optionflags=optionFlags), LAYER),
     ])
 
 if __name__ == '__main__':
