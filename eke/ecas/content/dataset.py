@@ -311,8 +311,8 @@ def DatasetVocabularyFactory(context):
     catalog = getToolByName(context, 'portal_catalog')
     # TODO: filter by review_state?
     results = catalog(object_provides=IDataset.__identifier__, sort_on='sortable_title')
-    items = [(i.Title, i.UID) for i in results]
-    return SimpleVocabulary.fromItems(items)
+    terms = [SimpleVocabulary.createTerm(i.UID, i.UID, i.Title.decode('utf-8')) for i in results]
+    return SimpleVocabulary(terms)
 directlyProvides(DatasetVocabularyFactory, IVocabularyFactory)
 
 def DatasetUpdater(context, event):
