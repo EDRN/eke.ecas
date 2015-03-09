@@ -10,7 +10,7 @@ import os.path
 # ------------
 
 _name        = 'eke.ecas'
-_version     = '1.1.9'
+_version     = '1.1.10'
 _description = 'EDRN Catalog and Archive Service for the EDRN Knowledge Environment'
 _author      = 'Sean Kelly'
 _authorEmail = 'sean.kelly@jpl.nasa.gov'
