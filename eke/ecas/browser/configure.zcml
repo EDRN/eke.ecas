@@ -29,6 +29,19 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         menu='plone_displayviews'
         title='Datset Folder view'
     />
+    <!-- Reporting graphs -->
+    <browser:page
+        for='*'
+        permission='zope2.Public'
+        name='dataset_summary_report'
+        template='templates/dataset_summary_report.pt'
+    />
+    <browser:page
+        class='.views.DatasetFolderSummary'
+        for='..interfaces.IDatasetFolder'
+        name='summary'
+        permission='zope2.View'
+    />
 
     <!-- Dataset -->
     <browser:resource name='dataset.gif' file='images/dataset.gif'/>

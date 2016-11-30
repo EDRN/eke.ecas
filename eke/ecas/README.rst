@@ -60,6 +60,7 @@ portal::
     >>> browser.getControl(name='title').value = u'Toenail Clippings'
     >>> browser.getControl(name='description').value = u'This folder is just for functional tests.'
     >>> browser.getControl(name='rdfDataSource').value = u'testscheme://localhost/datasets/a'
+    >>> browser.getControl(name='dsSumDataSource').value = u'testscheme://localhost/datasets/c'
     >>> browser.getControl(name='form.button.save').click()
     >>> 'toenail-clippings' in portal.objectIds()
     True
@@ -277,7 +278,7 @@ And issue CA-501 says we need a disclaimer on the dataset list.  Is
 it there?  Let's find out::
 
     >>> browser.contents
-    '...The EDRN is involved in researching hundreds of biomarkers.  The following is a partial list...'
+    '...The following is a list of data that has been captured...'
     
 No problem.  Issue CA-513 wants protocols to be hyperlinks to their
 protocols::

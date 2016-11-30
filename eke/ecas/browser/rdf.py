@@ -10,6 +10,7 @@ from Acquisition import aq_inner
 from eke.ecas import ProjectMessageFactory as _
 from eke.knowledge.browser.rdf import KnowledgeFolderIngestor, CreatedObject, RDFIngestException
 from eke.knowledge.browser.utils import updateObject
+from eke.knowledge.interfaces import IBodySystem
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from Products.CMFCore.utils import getToolByName
 from rdflib import URIRef, ConjunctiveGraph, URLInputSource
@@ -17,11 +18,13 @@ from zope.component import queryUtility, getMultiAdapter
 from zope.publisher.browser import TestRequest
 from Products.CMFCore.WorkflowCore import WorkflowException
 from eke.ecas.utils import COLLABORATIVE_GROUP_ECAS_IDS_TO_NAMES
+from urllib2 import urlopen
 
 _accessPredicateURI     = URIRef('http://edrn.nci.nih.gov/rdf/schema.rdf#AccessGrantedTo')
 _protocolPredicateURI   = URIRef('http://edrn.nci.nih.gov/rdf/schema.rdf#protocol')
 _visibilityPredicateURI = URIRef('http://edrn.nci.nih.gov/rdf/schema.rdf#QAState')
 _collaborativeGroupURI  = URIRef('urn:edrn:CollaborativeGroup')
+_organPredicateURI      = URIRef('http://edrn.nci.nih.gov/rdf/schema.rdf#organ')
 # FIXME: this should be dublin core title:
 _nonstandardECASTitlePredicateURI = URIRef('urn:edrn:DataSetName')
 # Interface identifier for EDRN Collaborative Group, from edrnsite.collaborations
@@ -57,15 +60,34 @@ class DatasetFolderIngestor(KnowledgeFolderIngestor):
         else:
             if wfTool.getInfoFor(dataset, 'review_state') != 'private':
                 self._doPublish(dataset, wfTool, action='retract')
+
+    def getBodySysteObj(self, catalog, organName):
+        results = catalog(Title=organName, object_provides=IBodySystem.__identifier__)
+        return [i.UID for i in results]                     # Return the UID of each match
+
+    def getSummaryData(self, source):
+        try:
+            jsonlines = urlopen(source)
+            json = ""
+            for line in jsonlines:
+                json += line
+            return json
+        except IOError:
+            _logger.warning('HTTP Error when trying to access biomarker summary data source. Skipping summarization...')
+
     def __call__(self):
         '''We have to override this because ECAS datasets come in with unpredictable RDF types.
         '''
         context = aq_inner(self.context)
         catalog = getToolByName(context, 'portal_catalog')
         wfTool = getToolByName(context, 'portal_workflow')
-        rdfDataSource = context.rdfDataSource
+        rdfDataSource, dsSumDataSource = context.rdfDataSource, context.dsSumDataSource
+        if dsSumDataSource:
+            context.dataSummary = self.getSummaryData(dsSumDataSource)
+
         if not rdfDataSource:
             raise RDFIngestException(_(u'This folder has no RDF data source URL.'))
+
         normalizerFunction = queryUtility(IIDNormalizer).normalize
         graph = ConjunctiveGraph()
         graph.parse(URLInputSource(rdfDataSource))
@@ -98,9 +120,15 @@ class DatasetFolderIngestor(KnowledgeFolderIngestor):
                 settings = [dict(type='group', roles=[u'Reader'], id=i) for i in groupIDs]
                 sharing = getMultiAdapter((dataset, TestRequest()), name=u'sharing')
                 sharing.update_role_settings(settings)
+            if _organPredicateURI in predicates:
+                bodySystemName = predicates[_organPredicateURI][0].rsplit('/', 1)[-1]
+                organs = self.getBodySysteObj(catalog,bodySystemName)
+                if len(organs) > 0:
+                    dataset.setBodySystem(organs[0])
             self.publishDataset(wfTool, dataset, predicates)
             dataset.reindexObject()
         self.objects = createdObjects
+    
         return self.render and self.template() or len(self.objects)
     def updateCollaborativeGroup(self, dataset, groupID, catalog):
         try:
@@ -113,5 +141,3 @@ class DatasetFolderIngestor(KnowledgeFolderIngestor):
             if dataset not in currentDatasets:
                 currentDatasets.append(dataset)
                 collabGroup.setDatasets(currentDatasets)
-                
-        

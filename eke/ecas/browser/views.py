@@ -9,6 +9,7 @@ EKE ECAS: views for content types.
 from Acquisition import aq_inner
 from eke.ecas.interfaces import IDataset, IDatasetFolder
 from eke.knowledge.browser.views import KnowledgeFolderView, KnowledgeObjectView
+from Products.Five.browser import BrowserView
 from plone.memoize.instance import memoize
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -55,7 +56,8 @@ class DatasetFolderView(KnowledgeFolderView):
                 dataset['reviewState'] = 'published'
         results = allDatasets.values()
         results.sort(lambda a, b: cmp(a['title'], b['title']))
-        return results
+        
+        return {'facetedview': allDatasets, 'normalview': results}
     def _getProtocolURL(self, protocolUID, uidCatalog):
         if protocolUID is None: return None
         results = uidCatalog(UID=protocolUID)
@@ -80,3 +82,9 @@ class DatasetFolderView(KnowledgeFolderView):
 class DatasetView(KnowledgeObjectView):
     '''Default view of a Dataset.'''
     __call__ = ViewPageTemplateFile('templates/dataset.pt')
+
+class DatasetFolderSummary(BrowserView):
+    def __call__(self):
+        self.request.RESPONSE.setHeader('Content-type', 'application/json')
+        context = aq_inner(self.context)
+        return context.dataSummary

@@ -70,10 +70,13 @@ _dobuleDatasetRDF = '''<?xml version='1.0' encoding='UTF-8'?>
     </ecas:TotallySecretData>
 </rdf:RDF>'''
 
+_singleDatasetJson = '''{"Cervix":1,"Liver, Placenta, Brain":1,"NA":7,"Bladder":1,"Lung":34,"Breast":1,"Unknown":3,"Colon":9,"Esophagus":1,"Prostate":13,"Ovary":3,"Pancreas":2}'''
+
 def registerLocalTestData():
     ekeKnowledgeBase.registerLocalTestData()
     ekeStudyBase.registerLocalTestData()
     ekeSiteBase.registerLocalTestData()
     ekeKnowledgeBase.registerTestData('/datasets/a', _singleDatasetRDF)
     ekeKnowledgeBase.registerTestData('/datasets/b', _dobuleDatasetRDF)
+    ekeKnowledgeBase.registerTestData('/datasets/c', _singleDatasetJson)
 

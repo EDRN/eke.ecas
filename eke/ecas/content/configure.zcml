@@ -14,8 +14,20 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         component='.dataset.DatasetVocabularyFactory'
         name='eke.ecas.DatasetsVocabulary'
     />
+    <utility
+        component='.datasetfolder.IndicatedOrgansVocabularyFactory'
+        name='eke.ecas.IndicatedOrgansVocabulary'
+    />
     <subscriber
         for='..interfaces.IDataset zope.lifecycleevent.interfaces.IObjectModifiedEvent'
         handler='.dataset.DatasetUpdater'
     />
+  <!--  <subscriber
+        for='..interfaces.IDatasetFolder zope.container.interfaces.IObjectAddedEvent'
+        handler='.datasetfolder.addFacetedNavigation'
+    />
+    <subscriber
+        for='..interfaces.IDatasetFolder Products.Archetypes.interfaces.event.IObjectInitializedEvent'
+        handler='.datasetfolder.addFacetedNavigation'
+    />-->
 </configure>

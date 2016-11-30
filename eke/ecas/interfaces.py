@@ -15,6 +15,11 @@ from eke.study.interfaces import IProtocol
 class IDatasetFolder(IKnowledgeFolder):
     '''Dataset folder.'''
     contains('eke.ecas.interfaces.IDataset')
+    dataSummary = schema.TextLine(
+        title=_(u'Dataset Statistics'),
+        description=_(u'Dataset statistics.'),
+        required=False
+    )
 
 class IDataset(IKnowledgeObject):
     '''Dataset.'''

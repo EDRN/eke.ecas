@@ -25,18 +25,6 @@
                        </li> 
                     </ul>
                 </div>
-
-                <p i18n:translate='ecasFolder_disclaimer'>
-                    The EDRN is involved in researching hundreds of biomarkers.  The following is a partial list of associated
-                    results from biomarker research that are currently available for access and viewing.  The bioinformatics
-                    team at EDRN is currently working with EDRN collaborative groups to capture, curate, review and post
-                    additional data as it is available.  EDRN also provides secure access to additional biomarker information
-                    not available to the public that is currently under review by EDRN research groups.  If you have access
-                    to this information, please ensure that you are logged in.  If you are unsure or would like access, please 
-                    <a tal:attributes='href string:${portalURL}/contact-info' i18n:name='contact'
-                        href='#'>contact the operator</a> for more information.
-                </p>
-
                 <h2 i18n:translate='knowledgeFolder_inThisFolder'>Contents</h2>
                 <p tal:condition='not:view/haveDatasets' i18n:translate='eacsFolder_noDatasets' class='discreet'>
                     There are currently no datasets in this folder.
@@ -47,7 +35,7 @@
                     b_size   python:30;
                     b_start  python:0;
                     b_start  request/b_start|b_start;
-                    batch    python:Batch(contents, b_size, int(b_start), orphan=1);
+                    batch    python:Batch(contents["normalview"], b_size, int(b_start), orphan=1);
                 '>
                     <table class='listing'>
                         <thead>
@@ -101,6 +89,15 @@
                     </table>
                     <div metal:use-macro='context/batch_macros/macros/navigation'>Navigation here.</div>
                 </div>
+                <br>
+                <p i18n:translate='ecasFolder_disclaimer'>
+                    EDRN investigator data. The following is a list of data that has been captured and curated from EDRN 
+                    investigators based on their scientific research and publications. Additional information will be 
+                    added or made public as it is available. If you have access to this information, please ensure that 
+                    you are logged in. If you are unsure or would like access, please
+                    <a tal:attributes='href string:${portalURL}/contact-info' i18n:name='contact'
+                        href='#'>contact the operator</a> for more information.
+                </p>
             </tal:main-macro>
         </metal:main>
     </body>

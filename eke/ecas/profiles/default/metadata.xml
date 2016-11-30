@@ -4,7 +4,7 @@ Copyright 2008-2011 California Institute of Technology. ALL RIGHTS
 RESERVED. U.S. Government Sponsorship acknowledged.
 -->
 <metadata>
-    <version>5</version>
+    <version>6</version>
     <description>EDRN Knowledge Environment: Catalog and Archive System</description>
     <dependencies>
         <dependency>profile-eke.knowledge:default</dependency>

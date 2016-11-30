@@ -24,4 +24,13 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         handler='eke.ecas.upgrades.nullUpgradeStep'
         sortkey='1'
     />
+    <genericsetup:upgradeStep
+        source='5'
+        destination='6'
+        title='Faceted Upgrade Step (5→6)'
+        description='This step updates the faceted navigation on all Dataset Folders in profile 5 to profile 6.'
+        profile='eke.ecas:default'
+        handler='eke.ecas.upgrades.upgradeDatasetFolders'
+        sortkey='1'
+    />
 </configure>
