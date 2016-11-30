@@ -63,5 +63,9 @@ def IndicatedOrgansVocabularyFactory(context):
     '''Get a vocab for indicated organs'''
     catalog = getToolByName(context, 'portal_catalog')
     results = catalog.uniqueValuesFor('bodySystemName')
-    return SimpleVocabulary.fromItems([(i, i) for i in results])
+    vocabs = []
+    for i in results:
+        if i:
+            vocabs.append((i, i))
+    return SimpleVocabulary.fromItems(vocabs)
 directlyProvides(IndicatedOrgansVocabularyFactory, IVocabularyFactory)
