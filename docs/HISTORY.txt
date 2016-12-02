@@ -7,7 +7,7 @@ https://oodt.jpl.nasa.gov/jira/browse/CA.
 
 
 1.1.10 — Visual and Faceted Searching Enhancements
--------------------------------------------------
+--------------------------------------------------
 
 • CA-1421 - Updates to Science Data Tab
 
