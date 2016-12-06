@@ -54,7 +54,6 @@ def setFacetedNavigation(folder, request, force=False):
         hidezerocount=False
     )
     criteria.add('path', 'bottom', 'default', title='Path Search', hidden=True, index='path', default=path)
-    #criteria.add('debug', 'top', 'default', title='Debug Criteria', user='kelly')
     criteria.add('text', 'top', 'default', title=u'Search', hidden=False, index='SearchableText', count=False,
         onlyallelements=True)
     IFacetedLayout(folder).update_layout('faceted_datasets_view')
