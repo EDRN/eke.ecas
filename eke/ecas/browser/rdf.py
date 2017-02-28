@@ -19,6 +19,9 @@ from zope.publisher.browser import TestRequest
 from Products.CMFCore.WorkflowCore import WorkflowException
 from eke.ecas.utils import COLLABORATIVE_GROUP_ECAS_IDS_TO_NAMES
 from urllib2 import urlopen
+import logging
+
+_logger = logging.getLogger(__name__)
 
 _accessPredicateURI     = URIRef('http://edrn.nci.nih.gov/rdf/schema.rdf#AccessGrantedTo')
 _protocolPredicateURI   = URIRef('http://edrn.nci.nih.gov/rdf/schema.rdf#protocol')
