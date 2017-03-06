@@ -6,8 +6,8 @@ details about specific issue IDs listed below, consult the issue tracker at
 https://oodt.jpl.nasa.gov/jira/browse/CA.
 
 
-1.1.11 — TBD
-------------
+1.1.11 — Dump a Log
+-------------------
 
 • CA-1496 - If the portal cannot ingest ECAS summary data, it tries to log the
   fact with a nonexistent logger
