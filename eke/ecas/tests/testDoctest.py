@@ -7,7 +7,7 @@ EKE ECAS: functional and documentation tests.
 '''
 
 import doctest
-import unittest2 as unittest
+import unittest
 from plone.testing import layered
 from eke.ecas.testing import EKE_ECAS_FUNCTIONAL_TESTING as LAYER
 

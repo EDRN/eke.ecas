@@ -6,7 +6,7 @@
 EKE ECAS: test the setup of this package.
 '''
 
-import unittest2 as unittest
+import unittest
 from eke.ecas.testing import EKE_ECAS_INTEGRATION_TESTING
 from Products.CMFCore.utils import getToolByName
 

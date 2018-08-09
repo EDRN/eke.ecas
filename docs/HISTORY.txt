@@ -6,6 +6,12 @@ details about specific issue IDs listed below, consult the issue tracker at
 https://oodt.jpl.nasa.gov/jira/browse/CA.
 
 
+1.1.12 — Plone 4.3.9 Upgrade
+----------------------------
+
+• CA-1592
+
+
 1.1.11 — Dump a Log
 -------------------
 
