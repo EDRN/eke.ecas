@@ -5,6 +5,10 @@ What follows is a history of changes from release to release.  For more
 details about specific issue IDs listed below, consult the issue tracker at
 https://oodt.jpl.nasa.gov/jira/browse/CA.
 
+1.1.13 — Datset URL Upgrade
+---------------------------
+
+• CA-1609
 
 1.1.12 — Plone 4.3.9 Upgrade
 ----------------------------

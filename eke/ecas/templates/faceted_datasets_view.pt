@@ -125,7 +125,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
                                 ds_collabGroup      python:datasets[ds_uid]["collaborativeGroup"];
                             '>-->
                                 <td>
-                                    <a href='#' tal:condition="python:ds_uid in datasets" tal:attributes='href python:datasets[ds_uid]["url"];' tal:content='python:datasets[ds_uid]["title"]'>Steamy Dataset</a>
+                                    <a href='#' tal:condition="python:ds_uid in datasets" tal:attributes='href item/getURL|item/absolute_url' tal:content='python:datasets[ds_uid]["title"]'>Steamy Dataset</a>
                                     <a href='#' tal:condition="python:ds_uid not in datasets" tal:content='item/title'>Steamy Dataset</a>
                                 </td>
                                 <td>
